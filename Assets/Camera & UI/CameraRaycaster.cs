@@ -11,16 +11,21 @@ public class CameraRaycaster : MonoBehaviour
     Camera viewCamera;
 
     RaycastHit raycastHit;
+
     public RaycastHit hit
     {
         get { return raycastHit; }
     }
 
     Layer layerHit;
+    Layer lastLayerHit;
     public Layer currentLayerHit
     {
         get { return layerHit; }
     }
+
+    public delegate void OnLayerChange(Layer newLayer); // declaire new delegate type
+    public event OnLayerChange layerChangeObservers; // instantiate an observer set
 
     void Start()
     {
@@ -37,6 +42,12 @@ public class CameraRaycaster : MonoBehaviour
             {
                 raycastHit = hit.Value;
                 layerHit = layer;
+
+                if(layer != lastLayerHit)
+                {
+                    layerChangeObservers(layer);
+                }
+                lastLayerHit = layer;
                 return;
             }
         }

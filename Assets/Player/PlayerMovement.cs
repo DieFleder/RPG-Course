@@ -20,15 +20,18 @@ public class PlayerMovement : MonoBehaviour
         currentClickTarget = transform.position;
     }
 
-    // Fixed update is called in sync with physics
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.G)) // G for gamepad. TODO add to menu
         {
             isInDirectMode = !isInDirectMode; // toggle mode
             currentClickTarget = transform.position; // clear the click target
         }
+    }
 
+    // Fixed update is called in sync with physics
+    private void FixedUpdate()
+    {
         if (isInDirectMode)
         {
             ProcessDirectMovement();
